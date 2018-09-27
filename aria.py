@@ -8,6 +8,19 @@ import asyncio
 from keys import aria_code
 
 
+def plus(first, second):
+    try:
+        int(first)
+    except ValueError:
+        return 'invalid input 1'
+    try:
+        int(second)
+    except ValueError:
+        return 'invalid input 2'
+    else:
+        return int(first) + int(second)
+
+
 def main():
     client = discord.Client()
 
@@ -17,6 +30,7 @@ def main():
         print(client.user.name)
         print(client.user.id)
         print('-------')
+        print(plus(1, 2))
 
     @client.event
     async def on_message(message):
