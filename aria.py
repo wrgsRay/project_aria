@@ -6,43 +6,45 @@ import discord
 from discord.ext import commands
 import asyncio
 from keys import aria_code
-
-
-def plus(first, second):
-    try:
-        int(first)
-    except ValueError:
-        return 'invalid input 1'
-    try:
-        int(second)
-    except ValueError:
-        return 'invalid input 2'
-    else:
-        return int(first) + int(second)
+import random
 
 
 def main():
-    client = discord.Client()
+    bot = commands.Bot(command_prefix='$')
 
-    @client.event
+    @bot.event
     async def on_ready():
-        print('Logged in as')
-        print(client.user.name)
-        print(client.user.id)
-        print('-------')
-        print(plus(1, 2))
+        print('We have logged in as {0.user}'.format(bot))
 
-    @client.event
-    async def on_message(message):
-        # We do not want the bot to respond to itself
-        if message.author == client.user:
-            return
+    @bot.command()
+    async def plus(ctx, first, second):
+        try:
+            int(first)
+        except ValueError:
+            await ctx.send('Error: Invalid Input')
+        try:
+            int(second)
+        except ValueError:
+            await ctx.send('Error: Invalid Input')
+        else:
+            sum = int(first) + int(second)
+            await ctx.send(f'Sum of {first} and {second} is {sum}')
 
-        if message.content.startswith('!hello'):
-            msg = 'Hello {0.author.mention}'.format(message)
-            await client.send_message(message.channel, msg)
+    @bot.command()
+    async def multiply(ctx, a: int, b: int):
+        await ctx.send(a * b)
 
-    client.run(aria_code)
+    @bot.command()
+    async def greet(ctx):
+        await ctx.send(f"{ctx.message.author.mention} smiley: :wave: Hello, there!")
+
+    @bot.command(description='For when you wanna settle the score some other way')
+    async def choose(ctx, *choices: str):
+        """Chooses between multiple choices."""
+
+        await ctx.send(random.choice(choices))
+
+    bot.run(aria_code)
 
 
 if __name__ == '__main__':
