@@ -12,15 +12,19 @@ from bs4 import BeautifulSoup as bs
 
 
 def main():
+    # Set prefix and remove default help command
     bot = commands.Bot(command_prefix='!')
     bot.remove_command('help')
 
+    # Print something to console once logged in
     @bot.event
     async def on_ready():
         print('We have logged in as {0.user}'.format(bot))
 
+    # commands
     @bot.command()
     async def help(ctx):
+        """Display help"""
         embed = discord.Embed(title='Aria', description='Simple bot for personal use:', color=0xeee657)
 
         embed.add_field(name='!plus X Y', value='Aria calculates and gives the sum of X and Y')
@@ -33,6 +37,7 @@ def main():
 
     @bot.command()
     async def info(ctx):
+        """Display basic info of bot"""
         embed = discord.Embed(title="Aria", description="Simple bot for personal use", color=0xeee657)
 
         # give info about you here
@@ -48,6 +53,7 @@ def main():
 
     @bot.command()
     async def plus(ctx, first, second):
+        """Addition command"""
         try:
             int(first)
         except ValueError:
@@ -83,6 +89,10 @@ def main():
         updated = soup.find('div', {'class': 'styles__reportedTime___EIf9S'}).text
         await ctx.send(f'{ctx.message.author.mention} '
                        f'Latest Price from Sam\'s Club for regular gasoline is {price} and it is updated {updated}.')
+
+    @bot.command()
+    async def fuck(ctx):
+        await ctx.send(f'{ctx.message.author.mention} you baka!')
 
     bot.run(aria_code)
 
