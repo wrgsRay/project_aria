@@ -16,11 +16,13 @@ def main():
     # Set prefix and remove default help command
     bot = commands.Bot(command_prefix='!')
     bot.remove_command('help')
+    activity = discord.Game(name="!help for help")
 
     # Print something to console once logged in
     @bot.event
     async def on_ready():
         print('We have logged in as {0.user}'.format(bot))
+        await bot.change_presence(status=discord.Status.idle, activity=activity)
 
     # commands
     @bot.command()
