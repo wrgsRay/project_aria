@@ -31,8 +31,9 @@ def main():
         embed.add_field(name='!plus X Y', value='Aria calculates and gives the sum of X and Y')
         embed.add_field(name='!multiply X Y', value='Aria calculates and gives the product of X and Y')
         embed.add_field(name='!greet', value='Aria greets you.')
-        embed.add_field(name='!choose', value='Aria makes a choice for you out of the things you give her.')
+        embed.add_field(name='!choose', value='Aria makes a choice for you out of the tKhings you give her.')
         embed.add_field(name='!sam', value='Aria pulls the price of regular gasoline of Sam\'s Club, El Monte')
+        embed.add_field(name='!remindme', value='Aria reminds you after a certain time. Type the commend for usage.')
 
         await ctx.send(embed=embed)
 
@@ -98,7 +99,48 @@ def main():
     async def fuck(ctx):
         await ctx.send(f'{ctx.message.author.mention} you baka!')
 
-
+    @bot.command()
+    async def remindme(ctx, duration='empty', *comments):
+        re_day = re.compile('^\dd')
+        re_min = re.compile('^\d{1,4}m')
+        re_sec = re.compile('^\d{1,4}s')
+        if duration == 'empty':
+            await ctx.send(f'{ctx.message.author.mention} To use: !remindme XXd/XXm/XXs [comments] '
+                           'eg. !remindme 5s hello for 5 second reminder with comments as "hello"')
+        elif re_day.match(duration):
+            days = int(duration[:1])
+            if days:
+                await ctx.send(f'{ctx.message.author.mention} Sorry. Reminder for days is disabled for now.')
+            # if days < 5:
+            #     await ctx.send(f'{ctx.message.author.mention} Your reminder is set for {days} day(s)!')
+            #     await asyncio.sleep(1 * days)
+            #     # await asyncio.sleep(86400 * days)
+            #     await ctx.send(f'{ctx.message.author.mention} Beep Beep! '
+            #                    f'I\'m here to remind you: ' + ' '.join(comments))
+            else:
+                await ctx.send(f'{ctx.message.author.mention} Sorry! I have short memories. Please try a shorter time.')
+        elif re_min.match(duration):
+            minutes = int(duration[:len(duration) - 1])
+            if minutes < 1000:
+                await ctx.send(f'{ctx.message.author.mention} Your reminder is set for {minutes} minute(s)!')
+                await asyncio.sleep(60 * minutes)
+                await ctx.send(f'{ctx.message.author.mention} Beep Beep! '
+                               f'I\'m here to remind you: ' + ' '.join(comments))
+            else:
+                await ctx.send(f'{ctx.message.author.mention} Sorry! I have short memories. Please try a shorter time.')
+        elif re_sec.match(duration):
+            seconds = int(duration[:len(duration) - 1])
+            if seconds < 3600:
+                await ctx.send(f'{ctx.message.author.mention} Your reminder is set for {seconds} second(s)!')
+                await asyncio.sleep(seconds)
+                await ctx.send(f'{ctx.message.author.mention} Beep Beep! '
+                               f'I\'m here to remind you: ' + ' '.join(comments))
+            else:
+                await ctx.send(f'{ctx.message.author.mention} Sorry! I have short memories. Please try a shorter time.')
+        else:
+            await ctx.send('{ctx.message.author.mention} Sorry! I do not understand that duration. '
+                           'To use: !remindme XXd/XXm/XXs [comments] '
+                           'eg. !remindme 5s hello for 5 second reminder with comments as "hello"')
 
     bot.run(aria_code)
 
