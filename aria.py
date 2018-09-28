@@ -35,7 +35,7 @@ def main():
         embed.add_field(name='!greet', value='Aria greets you.')
         embed.add_field(name='!choose', value='Aria makes a choice for you out of the tKhings you give her.')
         embed.add_field(name='!sam', value='Aria pulls the price of regular gasoline of Sam\'s Club, El Monte')
-        embed.add_field(name='!remindme', value='Aria reminds you after a certain time. Type the commend for usage.')
+        embed.add_field(name='!remindme', value='Aria reminds you after a certain time. Type the command for usage.')
 
         await ctx.send(embed=embed)
 
