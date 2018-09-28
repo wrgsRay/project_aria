@@ -2,13 +2,14 @@
 Python 3.6
 @Author: wrgsRay
 """
+import aiohttp
 import discord
 from discord.ext import commands
 import asyncio
 from keys import aria_code
 import random
-import requests
 from bs4 import BeautifulSoup as bs
+import re
 
 
 def main():
@@ -80,11 +81,14 @@ def main():
 
         await ctx.send(f'I choose {random.choice(choices)}')
 
-    @bot.command(description='check price on Sam\'s Club')
+    @bot.command(decription='check price on Sam\'s Club')
     async def sam(ctx):
-        """Check and return price of Sam's Club"""
-        s = requests.get('https://www.gasbuddy.com/station/119637')
-        soup = bs(s.text, 'html.parser')
+        url = 'https://www.gasbuddy.com/station/119637'
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as r:
+                body = await r.text(encoding='utf-8')
+                soup = bs(body, 'html.parser')
         price = soup.find('h1', {'class': 'style__header1___1jBT0 style__header___onURp styles__price___1wJ_R'}).text
         updated = soup.find('div', {'class': 'styles__reportedTime___EIf9S'}).text
         await ctx.send(f'{ctx.message.author.mention} '
@@ -93,6 +97,8 @@ def main():
     @bot.command()
     async def fuck(ctx):
         await ctx.send(f'{ctx.message.author.mention} you baka!')
+
+
 
     bot.run(aria_code)
 
