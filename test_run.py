@@ -19,7 +19,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     print("The message's content was", message.content)
-    bot.process_commands(message)
+    await bot.process_commands(message)
 
 
 @bot.command()

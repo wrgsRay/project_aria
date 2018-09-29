@@ -24,6 +24,10 @@ def main():
         print('We have logged in as {0.user}'.format(bot))
         await bot.change_presence(status=discord.Status.idle, activity=activity)
 
+    @bot.event
+    async def on_message(ctx):
+        print("The message's content was", ctx.content)
+
     # commands
     @bot.command()
     async def help(ctx):
