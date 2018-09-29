@@ -27,6 +27,7 @@ def main():
     @bot.event
     async def on_message(ctx):
         print("The message's content was", ctx.content)
+        # TODO: do something when detected
 
     # commands
     @bot.command()
