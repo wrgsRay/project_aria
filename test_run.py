@@ -6,6 +6,7 @@ from discord.ext import commands
 from keys import aria_code
 import discord
 
+# python3 -m pip install -U https://github.com/Rapptz/discord.py/archive/rewrite.zip
 prefix = "?"
 bot = commands.Bot(command_prefix=prefix)
 
