@@ -167,7 +167,8 @@ def main():
                 async with session.get(weather_url) as resp:
                     d = await resp.json()
             await ctx.send(f'The current temperature in {coordinates_dict[0]["display_name"]}'
-                           f' is {d["currently"]["temperature"]} F')
+                           f' is {d["currently"]["temperature"]} °F\n'
+                           f'The current forecast is: {d["daily"]["summary"]}')
 
     bot.run(aria_code)
 
