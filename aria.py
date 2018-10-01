@@ -38,9 +38,10 @@ def main():
         embed.add_field(name='!plus X Y', value='Aria calculates and gives the sum of X and Y')
         embed.add_field(name='!multiply X Y', value='Aria calculates and gives the product of X and Y')
         embed.add_field(name='!greet', value='Aria greets you.')
-        embed.add_field(name='!choose', value='Aria makes a choice for you out of the tKhings you give her.')
+        embed.add_field(name='!choose', value='Aria makes a choice for you out of the things you give her.')
         embed.add_field(name='!sam', value='Aria pulls the price of regular gasoline of Sam\'s Club, El Monte')
         embed.add_field(name='!remindme', value='Aria reminds you after a certain time. Type the command for usage.')
+        embed.add_field(name='!weather', value='Aria tells you the current and weekly forecast for the a location')
 
         await ctx.send(embed=embed)
 
