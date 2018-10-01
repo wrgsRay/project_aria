@@ -6,7 +6,7 @@ import aiohttp
 import discord
 from discord.ext import commands
 import asyncio
-from keys import aria_code
+from keys import aria_code, dark_sky_API_key
 import random
 from bs4 import BeautifulSoup as bs
 import re
@@ -24,10 +24,10 @@ def main():
         print('We have logged in as {0.user}'.format(bot))
         await bot.change_presence(status=discord.Status.idle, activity=activity)
 
-    @bot.event
-    async def on_message(ctx):
-        print("The message's content was", ctx.content)
-        # TODO: do something when detected
+    # @bot.event
+    # async def on_message(ctx):
+    #     print("The message's content was", ctx.content)
+    #     # TODO: do something when detected
 
     # commands
     @bot.command()
@@ -148,6 +148,26 @@ def main():
             await ctx.send('{ctx.message.author.mention} Sorry! I do not understand that duration. '
                            'To use: !remindme XXd/XXm/XXs [comments] '
                            'eg. !remindme 5s hello for 5 second reminder with comments as "hello"')
+
+    @bot.command()
+    async def weather(ctx, *location):
+        fixed_location = ' '.join(location)
+        if not location:
+            await ctx.send('To use, do !weather Location. Eg. !weather Los Angeles')
+        else:
+            geocoding_url = 'https://nominatim.openstreetmap.org/search/%s?format=json&polygon=0&addressdetails=0' \
+                            % fixed_location
+            async with aiohttp.ClientSession() as session:
+                async with session.get(geocoding_url) as resp:
+                    coordinates_dict = await resp.json()
+            coordinates = coordinates_dict[0]['lat'] + ',' + coordinates_dict[0]['lon']
+
+            weather_url = 'https://api.darksky.net/forecast/%s/%s' % (dark_sky_API_key, coordinates)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(weather_url) as resp:
+                    d = await resp.json()
+            await ctx.send(f'The current temperature in {coordinates_dict[0]["display_name"]}'
+                           f' is {d["currently"]["temperature"]} F')
 
     bot.run(aria_code)
 
