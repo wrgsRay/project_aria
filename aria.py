@@ -35,13 +35,16 @@ def main():
         """Display help"""
         embed = discord.Embed(title='Aria', description='Simple bot for personal use:', color=0xeee657)
 
-        embed.add_field(name='!plus X Y', value='Aria calculates and gives the sum of X and Y')
-        embed.add_field(name='!multiply X Y', value='Aria calculates and gives the product of X and Y')
+        embed.add_field(name='!plus <X> <Y>', value='Aria calculates and gives the sum of X and Y')
+        embed.add_field(name='!multiply <X> <Y>', value='Aria calculates and gives the product of X and Y')
         embed.add_field(name='!greet', value='Aria greets you.')
-        embed.add_field(name='!choose', value='Aria makes a choice for you out of the things you give her.')
+        embed.add_field(name='!choose <A> <B> <C> <D>',
+                        value='Aria makes a choice for you out of the things you give her.')
         embed.add_field(name='!sam', value='Aria pulls the price of regular gasoline of Sam\'s Club, El Monte')
-        embed.add_field(name='!remindme', value='Aria reminds you after a certain time. Type the command for usage.')
-        embed.add_field(name='!weather', value='Aria tells you the current and weekly forecast for the a location')
+        embed.add_field(name='!remindme <5m> <pizza>',
+                        value='Aria reminds you after a certain time. Type the command for usage.')
+        embed.add_field(name='!weather <location>',
+                        value='Aria tells you the current and weekly forecast for the a location')
 
         await ctx.send(embed=embed)
 
@@ -146,9 +149,9 @@ def main():
             else:
                 await ctx.send(f'{ctx.message.author.mention} Sorry! I have short memories. Please try a shorter time.')
         else:
-            await ctx.send('{ctx.message.author.mention} Sorry! I do not understand that duration. '
-                           'To use: !remindme XXd/XXm/XXs [comments] '
-                           'eg. !remindme 5s hello for 5 second reminder with comments as "hello"')
+            await ctx.send(f'{ctx.message.author.mention} Sorry! I do not understand that duration. '
+                           f'To use: !remindme XXd/XXm/XXs [comments] '
+                           f'eg. !remindme 5s hello for 5 second reminder with comments as "hello"')
 
     @bot.command()
     async def weather(ctx, *location):
