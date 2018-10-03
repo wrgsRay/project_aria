@@ -8,6 +8,7 @@ from discord.ext import commands
 import asyncio
 from keys import aria_code, dark_sky_API_key
 import random
+from time import time
 from bs4 import BeautifulSoup as bs
 import re
 
@@ -16,6 +17,7 @@ def main():
     # Set prefix and remove default help command
     bot = commands.Bot(command_prefix='!')
     bot.remove_command('help')
+    start_time = time()
     activity = discord.Game(name="!help for help")
 
     # Print something to console once logged in
@@ -173,6 +175,12 @@ def main():
             await ctx.send(f'The current temperature in {coordinates_dict[0]["display_name"]}'
                            f' is {d["currently"]["temperature"]} °F\n'
                            f'The current forecast is: {d["daily"]["summary"]}')
+
+    @bot.command()
+    async def uptime(ctx):
+        now = time()
+        difference = int(now - start_time)
+        await ctx.send(f'I have been up for {difference} seconds')
 
     bot.run(aria_code)
 
