@@ -180,7 +180,10 @@ def main():
     async def uptime(ctx):
         now = time()
         difference = int(now - start_time)
-        await ctx.send(f'I have been up for {difference} seconds')
+        hours = difference // 3600
+        minutes = (difference - 3600 * hours) // 60
+        seconds = difference % 60
+        await ctx.send(f'I have been up for {hours} hours, {minutes} minutes and {seconds} seconds.')
 
     bot.run(aria_code)
 
