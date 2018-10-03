@@ -2,6 +2,8 @@
 Python 3.6
 @Author: wrgsRay
 """
+# Documents for discord py: https://discordpy.readthedocs.io/en/rewrite/index.html
+
 import aiohttp
 import discord
 from discord.ext import commands
@@ -23,9 +25,10 @@ def main():
     # Print something to console once logged in
     @bot.event
     async def on_ready():
+        channel = bot.get_channel(308155307165483009)
         print('We have logged in as {0.user}'.format(bot))
+        await channel.send('Aria, up and running.')
         await bot.change_presence(status=discord.Status.idle, activity=activity)
-
     # @bot.event
     # async def on_message(ctx):
     #     print("The message's content was", ctx.content)
