@@ -29,10 +29,13 @@ def main():
         print('We have logged in as {0.user}'.format(bot))
         await channel.send('Aria, up and running.')
         await bot.change_presence(status=discord.Status.idle, activity=activity)
-    # @bot.event
-    # async def on_message(ctx):
-    #     print("The message's content was", ctx.content)
-    #     # TODO: do something when detected
+
+    @bot.event
+    async def on_message(message):
+        print("The message's content was", message.content)
+        # TODO: do something when detected
+
+        await bot.process_commands(message)
 
     # commands
     @bot.command()
