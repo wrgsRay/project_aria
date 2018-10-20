@@ -25,7 +25,8 @@ def main():
     # Print something to console once logged in
     @bot.event
     async def on_ready():
-        channel = bot.get_channel(308155307165483009)
+        # channel = bot.get_channel(308155307165483009)
+        channel = bot.get_channel(372977988322721794)
         print('We have logged in as {0.user}'.format(bot))
         await channel.send('Aria, up and running.')
         await bot.change_presence(status=discord.Status.idle, activity=activity)
@@ -190,6 +191,30 @@ def main():
         minutes = (difference - 3600 * hours) // 60
         seconds = difference % 60
         await ctx.send(f'I have been up for {hours} hours, {minutes} minutes and {seconds} seconds.')
+
+    @bot.command()
+    async def communityday(ctx):
+        community_day_url = 'https://pokemongolive.com/en/events/community-day/americas/'
+        async with aiohttp.ClientSession() as session:
+            async with session.get(community_day_url) as r:
+                body = await r.text(encoding='utf-8')
+                soup = bs(body, 'html.parser')
+                raw_values = soup.find_all('div', class_='communityday__hero__bubble__label')
+                titles = list()
+                for i in raw_values:
+                    titles.append(i.get_text())
+                raw_values = soup.find_all('div', class_='communityday__hero__bubble__value')
+                values = list()
+                for i in raw_values:
+                    values.append(i.get_text())
+                zipped = list(zip(titles, values))
+                embed = discord.Embed(title='Community Day', color=0xeee657)
+                for i in zipped:
+                    embed.add_field(name=i[0], value=i[1])
+                embed.add_field(name='For more info:',
+                                value='Go to https://pokemongolive.com/en/events/community-day/americas/')
+
+        await ctx.send(embed=embed)
 
     bot.run(aria_code)
 
