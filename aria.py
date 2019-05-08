@@ -8,7 +8,7 @@ import aiohttp
 import discord
 from discord.ext import commands
 import asyncio
-from keys import aria_code, dark_sky_API_key
+from keys import aria_code, dark_sky_API_key, alpha_vantage_key
 import random
 from time import time
 from bs4 import BeautifulSoup as bs
@@ -182,6 +182,21 @@ def main():
             await ctx.send(f'The current temperature in {coordinates_dict[0]["display_name"]}'
                            f' is {d["currently"]["temperature"]} °F\n'
                            f'The current forecast is: {d["daily"]["summary"]}')
+
+    @bot.command()
+    async def stock(ctx, symbol = 'empty'):
+        if symbol == 'empty':
+            await ctx.send('Give me a symbol')
+        else:
+            stock_url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}' \
+                f'&interval=1min&apikey={alpha_vantage_key}'
+            async with aiohttp.ClientSession() as session:
+                async with session.get(stock_url) as resp:
+                    d = await resp.json()
+                    meta_symbol = d['Meta Data']['2. Symbol']
+                    latest = d['Meta Data']['3. Last Refreshed']
+                    close_price = d['Time Series (1min)'][latest]['4. close']
+            await ctx.send(f'At {latest}, the closing price for {meta_symbol} is {close_price}')
 
     @bot.command()
     async def uptime(ctx):
