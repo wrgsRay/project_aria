@@ -49,7 +49,7 @@ def main():
         embed.add_field(name='!greet', value='Aria greets you.')
         embed.add_field(name='!choose <A> <B> <C> <D>',
                         value='Aria makes a choice for you out of the things you give her.')
-        embed.add_field(name='!sam', value='Aria pulls the price of regular gasoline of Sam\'s Club, El Monte')
+        embed.add_field(name='!sam', value='(disabled) Aria pulls the price of regular gasoline of Sam\'s Club, El Monte')
         embed.add_field(name='!remindme <5m> <pizza>',
                         value='Aria reminds you after a certain time. Type the command for usage.')
         embed.add_field(name='!weather <location>',
@@ -102,18 +102,18 @@ def main():
 
         await ctx.send(f'I choose {random.choice(choices)}')
 
-    @bot.command(decription='check price on Sam\'s Club')
-    async def sam(ctx):
-        url = 'https://www.gasbuddy.com/station/119637'
-
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as r:
-                body = await r.text(encoding='utf-8')
-                soup = bs(body, 'html.parser')
-        price = soup.find('h1', {'class': 'style__header1___1jBT0 style__header___onURp styles__price___1wJ_R'}).text
-        updated = soup.find('div', {'class': 'styles__reportedTime___EIf9S'}).text
-        await ctx.send(f'{ctx.message.author.mention} '
-                       f'Latest Price from Sam\'s Club for regular gasoline is {price} and it is updated {updated}.')
+    # @bot.command(decription='check price on Sam\'s Club')
+    # async def sam(ctx):
+    #     url = 'https://www.gasbuddy.com/station/119637'
+    #
+    #     async with aiohttp.ClientSession() as session:
+    #         async with session.get(url) as r:
+    #             body = await r.text(encoding='utf-8')
+    #             soup = bs(body, 'html.parser')
+    #     price = soup.find('h1', {'class': 'style__header1___1jBT0 style__header___onURp styles__price___1wJ_R'}).text
+    #     updated = soup.find('div', {'class': 'styles__reportedTime___EIf9S'}).text
+    #     await ctx.send(f'{ctx.message.author.mention} '
+    #                    f'Latest Price from Sam\'s Club for regular gasoline is {price} and it is updated {updated}.')
 
     @bot.command()
     async def fuck(ctx):
