@@ -3,6 +3,8 @@ Python 3.6
 @Author: wrgsRay
 """
 # Documents for discord py: https://discordpy.readthedocs.io/en/rewrite/index.html
+# Documents for aiohttp https://docs.aiohttp.org/en/stable/client_advanced.html#custom-request-headers
+# Documents for aiohttp https://docs.aiohttp.org/en/stable/client_reference.html
 
 import aiohttp
 import discord
